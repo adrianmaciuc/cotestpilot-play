@@ -2,3 +2,8 @@ virtual-env
 __pycache__
 .env
 .pytest_cache
+.png
+.html
+ai_check_results/
+screenshots/
+ai_checks.log
