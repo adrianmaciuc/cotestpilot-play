@@ -283,7 +283,4 @@ class TestPlaywrightPage(unittest.IsolatedAsyncioTestCase):  # Changed base clas
     #     await asyncio.sleep(1)
 
 if __name__ == '__main__':
-    # Create and run test suite
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestPlaywrightPage)
-    runner = unittest.TextTestRunner()
-    asyncio.run(runner.run(suite))
+    unittest.main()

@@ -549,8 +549,12 @@ async def report(self, output_dir: str = "ai_check_results") -> str:
         os.makedirs(reports_dir, exist_ok=True)
         
         # Find all JSON files in the output directory
-        json_files = glob.glob(os.path.join(output_dir, "ai_*.json"))
+        json_files = glob.glob(os.path.join(output_dir, "*_ai.json"))
         
+        if not json_files:
+            logger.warning(f"No JSON result files found in {output_dir}")
+            return ""
+            
         # Collect all results
         all_results = []
         for json_file in json_files:
@@ -563,32 +567,41 @@ async def report(self, output_dir: str = "ai_check_results") -> str:
                         all_results.append(results)
             except Exception as e:
                 logger.warning(f"Error reading {json_file}: {str(e)}")
-        #print('all_results', all_results)
+                
+        if not all_results:
+            logger.warning("No valid results found in JSON files")
+            return ""
+            
         # Get template from package directory
         package_dir = os.path.dirname(os.path.abspath(__file__))
         template_path = os.path.join(package_dir, 'report_template.html')
         
-        # Copy screenshots to reports directory
+        if not os.path.exists(template_path):
+            logger.error(f"Report template not found at {template_path}")
+            return ""
+            
+        # Copy screenshots to reports directory and update paths
         for result in all_results:
             if 'screenshot' in result:
                 screenshot_path = result['screenshot']
                 if os.path.exists(screenshot_path):
                     dest_path = os.path.join(reports_dir, os.path.basename(screenshot_path))
                     shutil.copy2(screenshot_path, dest_path)
-                    # Update path in result to be relative
-                    result['screenshot'] = os.path.join('reports', os.path.basename(screenshot_path))
+                    # Update path in result to point to reports directory
+                    result['screenshot'] = f"reports/{os.path.basename(screenshot_path)}"
         
         # Generate report
         with open(template_path, 'r') as f:
             template = Template(f.read())
-        logger.info(f"all_results generated at {all_results}")
+            
         report_html = template.render(
             results=all_results,
             generation_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         )
         
-        # Save report
-        report_path = os.path.join(output_dir, 'ai_check_report.html')
+        # Save report in the main output directory
+        report_filename = f'ai_check_report_{datetime.now().strftime("%Y%m%d_%H%M%S")}.html'
+        report_path = os.path.join(output_dir, report_filename)
         with open(report_path, 'w') as f:
             f.write(report_html)
             
@@ -597,7 +610,7 @@ async def report(self, output_dir: str = "ai_check_results") -> str:
         
     except Exception as e:
         logger.exception(f"Error generating report: {str(e)}")
-        raise
+        return ""
 
 # Now we can set the attributes
 setattr(AsyncPage, "ai_check", check)

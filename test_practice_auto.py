@@ -81,18 +81,23 @@ class TestPlaywrightPage(unittest.IsolatedAsyncioTestCase):  # Changed base clas
         await self.browser.close()
         await self.playwright.stop()
 
-    async def test_automation_exercise(self):  # Made test async
- 
+    async def test_automation_exercise(self):
         await self.page.goto('https://practice-automation.com/')
         await self.page.wait_for_load_state('networkidle')
-        await self.page.ai_check(label='with_no_testers')
-        # Generate HTML report
-        await self.page.ai_report(output_dir="ai_check_results")
-        await asyncio.sleep(1)
-
+        
+        # Run AI check
+        result = await self.page.ai_check(
+            label='practice_automation',
+            save_to_file=True,
+            output_dir="ai_check_results"
+        )
+        
+        # Generate and verify report
+        report_path = await self.page.ai_report(output_dir="ai_check_results")
+        print(f"Report generated at: {report_path}")
+        
+        # Verify report was created
+        self.assertTrue(os.path.exists(report_path), f"Report file not found at {report_path}")
 
 if __name__ == '__main__':
-    # Create and run test suite
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestPlaywrightPage)
-    runner = unittest.TextTestRunner()
-    asyncio.run(runner.run(suite))
+    unittest.main()
