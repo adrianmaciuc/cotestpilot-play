@@ -1,4 +1,4 @@
-virtual-env
+virt*
 __pycache__
 .env
 .pytest_cache
