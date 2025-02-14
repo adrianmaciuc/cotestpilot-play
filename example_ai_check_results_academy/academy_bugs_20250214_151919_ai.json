@@ -1,0 +1,74 @@
+[
+  {
+    "timestamp": "20250214_151912",
+    "url": "https://academybugs.com/store/dnk-yellow-shoes/",
+    "screenshot": "screenshots/check_20250214_151912.png",
+    "testers_results": [
+      {
+        "tester": "Jason",
+        "biography": "Basic app testing, does app look modern and easy to use and read?",
+        "issues": [
+          {
+            "title": "Duplicate \"Home / Shop / All Items\" breadcrumb",
+            "severity": 0,
+            "description": "The breadcrumb \"Home / Shop / All Items\" is displayed twice.",
+            "why_fix": "Redundant information creates visual clutter and can be confusing for users.",
+            "how_to_fix": "Remove the duplicate breadcrumb.",
+            "confidence": 0.9,
+            "related_context_if_any": "Appears above the product title."
+          },
+          {
+            "title": "Inconsistent use of capitalization in sidebar menu",
+            "severity": 0,
+            "description": "The sidebar menu items have inconsistent capitalization. 'All Items' is capitalized, while 'Accessories', 'Fashion Type' are capitalized but the child elements are not.",
+            "why_fix": "Inconsistent capitalization looks unprofessional and can make the site appear less polished.",
+            "how_to_fix": "Standardize the capitalization of all menu items.",
+            "confidence": 0.8,
+            "related_context_if_any": "Located in the sidebar menu."
+          },
+          {
+            "title": "Missing label for Sign Up button",
+            "severity": 1,
+            "description": "There is a button with no label in the 'YOUR ACCOUNT' section. Assuming this is a sign up button, it lacks a visible label.",
+            "why_fix": "Users will not know the function of the unlabeled button, hindering account creation.",
+            "how_to_fix": "Add a label such as 'Sign Up' to the button.",
+            "confidence": 0.9,
+            "related_context_if_any": "Located in the 'YOUR ACCOUNT' section of the sidebar."
+          }
+        ]
+      },
+      {
+        "tester": "Aiden",
+        "biography": "Aiden has a keen eye for UI inconsistencies and visual bugs across different devices and screen sizes. Aiden is also a certified scuba diver and enjoys exploring underwater landscapes during his travels.",
+        "issues": [
+          {
+            "title": "Duplicate 'Home / Shop / All Items' breadcrumb",
+            "severity": 0,
+            "description": "The breadcrumb 'Home / Shop / All Items' is displayed twice in a row.",
+            "why_fix": "This is redundant and makes the page look unprofessional, slightly impacting user experience.",
+            "how_to_fix": "Remove the duplicate breadcrumb.",
+            "confidence": 0.9,
+            "related_context_if_any": "Located above the product title 'DNK Yellow Shoes'."
+          },
+          {
+            "title": "Inconsistent capitalization in sidebar menu",
+            "severity": 0,
+            "description": "The sidebar menu has inconsistent capitalization. 'All Items' is capitalized, while 'Accessories' and 'Fashion Type' are not.",
+            "why_fix": "Inconsistent capitalization looks unprofessional and can be distracting.",
+            "how_to_fix": "Standardize the capitalization of all menu items in the sidebar.",
+            "confidence": 0.8
+          },
+          {
+            "title": "Missing labels for Sign Up form fields",
+            "severity": 1,
+            "description": "The 'Email Address*' and 'Password*' fields under 'YOUR ACCOUNT' appear to be part of a sign-up form, but are missing proper labels. The text is acting as a placeholder, but this is bad for accessibility.",
+            "why_fix": "Lack of proper labels reduces accessibility and usability, especially for users with disabilities.",
+            "how_to_fix": "Implement proper HTML labels for the 'Email Address*' and 'Password*' fields.",
+            "confidence": 0.85,
+            "related_context_if_any": "Located in the sidebar under 'YOUR ACCOUNT'."
+          }
+        ]
+      }
+    ]
+  }
+]

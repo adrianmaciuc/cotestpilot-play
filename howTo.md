@@ -9,6 +9,7 @@ cd nameOfFolderWithVenv/bin
 source activate
 cd ../..
 pip install -r requirements.txt
+playwright install
 ```
 
 then run the following command:

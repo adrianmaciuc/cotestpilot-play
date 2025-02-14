@@ -50,6 +50,7 @@ class TestPlaywrightPage(unittest.IsolatedAsyncioTestCase):  # Changed base clas
         
         # Run AI check
         await self.page.ai_check(
+            custom_prompt="Pay special attention to header area",
             label='academy_bugs',
             save_to_file=True,
             output_dir="ai_check_results_academy"

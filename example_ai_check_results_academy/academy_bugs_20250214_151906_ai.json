@@ -1,0 +1,47 @@
+[
+  {
+    "timestamp": "20250214_151900",
+    "url": "https://academybugs.com/find-bugs/",
+    "screenshot": "screenshots/check_20250214_151900.png",
+    "testers_results": [
+      {
+        "tester": "Adriano",
+        "biography": "Consistency and proper semantic wording",
+        "issues": [
+          {
+            "title": "Inconsistent Pricing Display",
+            "severity": 1,
+            "description": "Some products display a strikethrough price and a discounted price (e.g., BLUE HOODIE, FALL COAT, DENIM COAT, PROFESSIONAL SUIT), while others only show a single price. This inconsistency is visually jarring.",
+            "why_fix": "Inconsistent presentation of pricing can confuse users and make it difficult to quickly compare product values.",
+            "how_to_fix": "Ensure all products either consistently display both original and discounted prices (if a discount applies) or only the current price. If there is no discount, show only the regular price without strikethrough.",
+            "confidence": 0.9
+          },
+          {
+            "title": "Inconsistent 'Add to Cart' vs. 'Select Options'",
+            "severity": 1,
+            "description": "Most products have an 'ADD TO CART' button, while some (FALL COAT, DENIM COAT, PROFESSIONAL SUIT) have a 'Select Options' button. This suggests these latter products may have variations (size, color, etc.) that need to be selected before adding to the cart.",
+            "why_fix": "The inconsistency in button labels suggests a variation in product types and may confuse users. It's important to clearly indicate when options need to be selected before adding to the cart.",
+            "how_to_fix": "Standardize the button label based on whether product options are required. If options are required, 'Select Options' is appropriate. If not, 'Add to Cart' should be used.",
+            "confidence": 0.9
+          },
+          {
+            "title": "Products with 'Login for Pricing'",
+            "severity": 2,
+            "description": "One product, 'DARK BLUE DENIM JEANS', displays 'Login for Pricing' instead of a price. This is unexpected in a general product listing.",
+            "why_fix": "Hiding the price behind a login wall creates a poor user experience. Users are less likely to engage with a product if they can't see the price immediately.",
+            "how_to_fix": "Determine if this product should be visible to all users or only logged-in users. If it's meant to be visible to all, ensure a price is displayed. If it is only for logged in users, make that clear and provide a clear call to action to log in.",
+            "confidence": 0.9
+          },
+          {
+            "title": "Cookie Policy Notice",
+            "severity": 0,
+            "description": "The cookie policy notice at the top is very basic and lacks styling. It could be improved to be more visually appealing and user-friendly.",
+            "why_fix": "A better-designed cookie notice improves the user experience and can increase compliance with privacy regulations.",
+            "how_to_fix": "Add styling to the cookie notice to make it more visually appealing and integrate it better with the site's design. Consider using a more prominent banner or a pop-up.",
+            "confidence": 0.8
+          }
+        ]
+      }
+    ]
+  }
+]
