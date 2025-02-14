@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Test Results Report</title>
+    <style>
+        :root {
+            --bg-primary: #0a0b0e;
+            --bg-secondary: #13151a;
+            --accent-primary: #00ff9d;
+            --accent-secondary: #00c8ff;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --severity-info: #3b82f6;
+            --severity-low: #fbbf24;
+            --severity-medium: #f97316;
+            --severity-high: #ef4444;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 2rem;
+            min-height: 100vh;
+            background: radial-gradient(circle at top right, #13151a, #0a0b0e);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .header {
+            position: relative;
+            padding: 2rem;
+            background: var(--glass-bg);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            margin-bottom: 3rem;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), var(--accent-secondary), transparent);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        .timestamp {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 30px;
+            display: inline-block;
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Result Section */
+        .result {
+            background: var(--glass-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at top right, 
+                rgba(0, 255, 157, 0.05), 
+                transparent 70%);
+            pointer-events: none;
+        }
+
+        .result h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Profile Section */
+        .tester-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            margin: 2rem 0;
+        }
+
+        .tester-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-primary);
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.2);
+        }
+
+        .tester-bio {
+            flex: 1;
+            font-style: italic;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Issue Cards */
+        .issue {
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+            transform: translateY(0);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .issue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .issue::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--severity-info);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .severity-0::before { background: var(--severity-info); }
+        .severity-1::before { background: var(--severity-low); }
+        .severity-2::before { background: var(--severity-medium); }
+        .severity-3::before { background: var(--severity-high); }
+
+        .issue h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .issue p {
+            margin: 0.75rem 0;
+            color: var(--text-secondary);
+        }
+
+        .confidence {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+            margin-top: 1rem;
+        }
+
+        .confidence::before {
+            content: '●';
+            display: inline-block;
+            margin-right: 0.5rem;
+            font-size: 0.8em;
+            animation: pulse 2s infinite;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .screenshot {
+            max-height: 200px;
+            max-width: 300px;
+            height: auto;
+            width: auto;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot:hover {
+            transform: scale(1.02);
+        }
+
+        .url {
+            background: rgba(0, 255, 157, 0.05);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            word-break: break-all;
+            border: 1px solid var(--glass-border);
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 1.5rem;
+            }
+
+            .result {
+                padding: 1.5rem;
+            }
+
+            .tester-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .tester-avatar {
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>coTestPilotAI Test Results Report</h1>
+            <div class="timestamp">Generated: 2025-02-14 15:19:19</div>
+        </div>
+        
+        
+        <div class="result">
+            <h2>Check Results</h2>
+            <div class="result-content">
+                <div class="metadata">
+                    <div class="url">https://academybugs.com/store/dnk-yellow-shoes/</div>
+                    <p>Timestamp: 20250214_151912</p>
+                    
+                    <img src="reports/check_20250214_151912.png" class="screenshot" alt="Page Screenshot">
+                    
+                </div>
+                
+                <div class="testers-container">
+                    
+                    <div class="tester-info">
+                        <img src="https://checkie.ai/images/profiles/jason.png" 
+                             class="tester-avatar" 
+                             alt="Jason">
+                        <div>
+                            <h3>Jason</h3>
+                            <p class="tester-bio">Basic app testing, does app look modern and easy to use and read?</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tester-info">
+                        <img src="https://checkie.ai/images/profiles/aiden.png" 
+                             class="tester-avatar" 
+                             alt="Aiden">
+                        <div>
+                            <h3>Aiden</h3>
+                            <p class="tester-bio">Aiden has a keen eye for UI inconsistencies and visual bugs across different devices and screen sizes. Aiden is also a certified scuba diver and enjoys exploring underwater landscapes during his travels.</p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+            
+            
+            <div class="issue severity-0">
+                <h4>Duplicate "Home / Shop / All Items" breadcrumb</h4>
+                <p>Severity: 0</p>
+                <p>The breadcrumb "Home / Shop / All Items" is displayed twice.</p>
+                <p><strong>Why Fix:</strong> Redundant information creates visual clutter and can be confusing for users.</p>
+                <p><strong>How to Fix:</strong> Remove the duplicate breadcrumb.</p>
+                <p class="confidence">Confidence: 0.9</p>
+            </div>
+            
+            <div class="issue severity-0">
+                <h4>Inconsistent use of capitalization in sidebar menu</h4>
+                <p>Severity: 0</p>
+                <p>The sidebar menu items have inconsistent capitalization. 'All Items' is capitalized, while 'Accessories', 'Fashion Type' are capitalized but the child elements are not.</p>
+                <p><strong>Why Fix:</strong> Inconsistent capitalization looks unprofessional and can make the site appear less polished.</p>
+                <p><strong>How to Fix:</strong> Standardize the capitalization of all menu items.</p>
+                <p class="confidence">Confidence: 0.8</p>
+            </div>
+            
+            <div class="issue severity-1">
+                <h4>Missing label for Sign Up button</h4>
+                <p>Severity: 1</p>
+                <p>There is a button with no label in the 'YOUR ACCOUNT' section. Assuming this is a sign up button, it lacks a visible label.</p>
+                <p><strong>Why Fix:</strong> Users will not know the function of the unlabeled button, hindering account creation.</p>
+                <p><strong>How to Fix:</strong> Add a label such as 'Sign Up' to the button.</p>
+                <p class="confidence">Confidence: 0.9</p>
+            </div>
+            
+            
+            
+            
+            
+            <div class="issue severity-0">
+                <h4>Duplicate 'Home / Shop / All Items' breadcrumb</h4>
+                <p>Severity: 0</p>
+                <p>The breadcrumb 'Home / Shop / All Items' is displayed twice in a row.</p>
+                <p><strong>Why Fix:</strong> This is redundant and makes the page look unprofessional, slightly impacting user experience.</p>
+                <p><strong>How to Fix:</strong> Remove the duplicate breadcrumb.</p>
+                <p class="confidence">Confidence: 0.9</p>
+            </div>
+            
+            <div class="issue severity-0">
+                <h4>Inconsistent capitalization in sidebar menu</h4>
+                <p>Severity: 0</p>
+                <p>The sidebar menu has inconsistent capitalization. 'All Items' is capitalized, while 'Accessories' and 'Fashion Type' are not.</p>
+                <p><strong>Why Fix:</strong> Inconsistent capitalization looks unprofessional and can be distracting.</p>
+                <p><strong>How to Fix:</strong> Standardize the capitalization of all menu items in the sidebar.</p>
+                <p class="confidence">Confidence: 0.8</p>
+            </div>
+            
+            <div class="issue severity-1">
+                <h4>Missing labels for Sign Up form fields</h4>
+                <p>Severity: 1</p>
+                <p>The 'Email Address*' and 'Password*' fields under 'YOUR ACCOUNT' appear to be part of a sign-up form, but are missing proper labels. The text is acting as a placeholder, but this is bad for accessibility.</p>
+                <p><strong>Why Fix:</strong> Lack of proper labels reduces accessibility and usability, especially for users with disabilities.</p>
+                <p><strong>How to Fix:</strong> Implement proper HTML labels for the 'Email Address*' and 'Password*' fields.</p>
+                <p class="confidence">Confidence: 0.85</p>
+            </div>
+            
+            
+            
+        </div>
+        
+        <div class="result">
+            <h2>Check Results</h2>
+            <div class="result-content">
+                <div class="metadata">
+                    <div class="url">https://academybugs.com/find-bugs/</div>
+                    <p>Timestamp: 20250214_151900</p>
+                    
+                    <img src="reports/check_20250214_151900.png" class="screenshot" alt="Page Screenshot">
+                    
+                </div>
+                
+                <div class="testers-container">
+                    
+                    <div class="tester-info">
+                        <img src="https://checkie.ai/images/profiles/adriano.png" 
+                             class="tester-avatar" 
+                             alt="Adriano">
+                        <div>
+                            <h3>Adriano</h3>
+                            <p class="tester-bio">Consistency and proper semantic wording</p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+            
+            
+            <div class="issue severity-1">
+                <h4>Inconsistent Pricing Display</h4>
+                <p>Severity: 1</p>
+                <p>Some products display a strikethrough price and a discounted price (e.g., BLUE HOODIE, FALL COAT, DENIM COAT, PROFESSIONAL SUIT), while others only show a single price. This inconsistency is visually jarring.</p>
+                <p><strong>Why Fix:</strong> Inconsistent presentation of pricing can confuse users and make it difficult to quickly compare product values.</p>
+                <p><strong>How to Fix:</strong> Ensure all products either consistently display both original and discounted prices (if a discount applies) or only the current price. If there is no discount, show only the regular price without strikethrough.</p>
+                <p class="confidence">Confidence: 0.9</p>
+            </div>
+            
+            <div class="issue severity-1">
+                <h4>Inconsistent 'Add to Cart' vs. 'Select Options'</h4>
+                <p>Severity: 1</p>
+                <p>Most products have an 'ADD TO CART' button, while some (FALL COAT, DENIM COAT, PROFESSIONAL SUIT) have a 'Select Options' button. This suggests these latter products may have variations (size, color, etc.) that need to be selected before adding to the cart.</p>
+                <p><strong>Why Fix:</strong> The inconsistency in button labels suggests a variation in product types and may confuse users. It's important to clearly indicate when options need to be selected before adding to the cart.</p>
+                <p><strong>How to Fix:</strong> Standardize the button label based on whether product options are required. If options are required, 'Select Options' is appropriate. If not, 'Add to Cart' should be used.</p>
+                <p class="confidence">Confidence: 0.9</p>
+            </div>
+            
+            <div class="issue severity-2">
+                <h4>Products with 'Login for Pricing'</h4>
+                <p>Severity: 2</p>
+                <p>One product, 'DARK BLUE DENIM JEANS', displays 'Login for Pricing' instead of a price. This is unexpected in a general product listing.</p>
+                <p><strong>Why Fix:</strong> Hiding the price behind a login wall creates a poor user experience. Users are less likely to engage with a product if they can't see the price immediately.</p>
+                <p><strong>How to Fix:</strong> Determine if this product should be visible to all users or only logged-in users. If it's meant to be visible to all, ensure a price is displayed. If it is only for logged in users, make that clear and provide a clear call to action to log in.</p>
+                <p class="confidence">Confidence: 0.9</p>
+            </div>
+            
+            <div class="issue severity-0">
+                <h4>Cookie Policy Notice</h4>
+                <p>Severity: 0</p>
+                <p>The cookie policy notice at the top is very basic and lacks styling. It could be improved to be more visually appealing and user-friendly.</p>
+                <p><strong>Why Fix:</strong> A better-designed cookie notice improves the user experience and can increase compliance with privacy regulations.</p>
+                <p><strong>How to Fix:</strong> Add styling to the cookie notice to make it more visually appealing and integrate it better with the site's design. Consider using a more prominent banner or a pop-up.</p>
+                <p class="confidence">Confidence: 0.8</p>
+            </div>
+            
+            
+            
+        </div>
+        
+    </div>
+</body>
+</html>
