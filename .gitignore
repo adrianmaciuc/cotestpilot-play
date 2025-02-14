@@ -7,3 +7,4 @@ __pycache__
 ai_check_results/
 screenshots/
 ai_checks.log
+ai_check*

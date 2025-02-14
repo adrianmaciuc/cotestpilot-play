@@ -1,6 +1,18 @@
 {
   "testers": [
     {
+      "name": "Adriano",
+      "biography": "Consistency and proper semantic wording",
+      "matches": [
+        "Formatting",
+        "Spelling",
+        "Search",
+        "Grammar",
+        "GDPR Compliance"
+      ],
+      "interests": "Privacy, GDPR Compliance, Accessibility Testing, Testing, Automation, Quality, Scale, Web Testing, Responsive,Innovation and testing browsers and search engines."
+    },
+    {
       "name": "Jason",
       "biography": "Basic app testing, does app look modern and easy to use and read?",
       "matches": ["AI", "Quality", "Search", "Browser"],
@@ -9,13 +21,23 @@
     {
       "name": "Aiden",
       "biography": "Aiden has a keen eye for UI inconsistencies and visual bugs across different devices and screen sizes. Aiden is also a certified scuba diver and enjoys exploring underwater landscapes during his travels.",
-      "matches": ["UI Testing", "Visual Regression Testing", "Responsive Design Testing", "Cross-Device Testing"],
+      "matches": [
+        "UI Testing",
+        "Visual Regression Testing",
+        "Responsive Design Testing",
+        "Cross-Device Testing"
+      ],
       "interests": "Responsive Design Testing, Cross-Device Compatibility, Visual Regression Testing"
     },
     {
       "name": "Marcus",
       "biography": "Marcus is passionate about brand consistency and visual design in software products. He's also a talented painter, and his art often explores themes of identity and culture.",
-      "matches": ["Brand Consistency", "Visual Design", "UI Testing", "Brand Testing"],
+      "matches": [
+        "Brand Consistency",
+        "Visual Design",
+        "UI Testing",
+        "Brand Testing"
+      ],
       "interests": "UI Design Testing, Brand Guidelines Testing, Visual Consistency Testing"
     },
     {
@@ -27,7 +49,14 @@
     {
       "name": "Sophia",
       "biography": "Sophia is a content specialist who ensures that every word in an app is consistent and free from errors. With her sharp eye for detail, she loves refining documentation to make it clear and accessible for global audiences.",
-      "matches": ["Content", "Inconsistency", "Spelling", "Grammar", "Formatting", "Clarity"],
+      "matches": [
+        "Content",
+        "Inconsistency",
+        "Spelling",
+        "Grammar",
+        "Formatting",
+        "Clarity"
+      ],
       "interests": "Technical writing, localization, style guides, translation"
     },
     {
@@ -45,13 +74,25 @@
     {
       "name": "Pete",
       "biography": "Pete is passionate about privacy protection and compliance with data protection regulations. In his free time, he loves to go on long motorcycle road trips.",
-      "matches": ["Security Testing", "Privacy Testing", "GDPR Compliance", "Data Protection"],
+      "matches": [
+        "Security Testing",
+        "Privacy Testing",
+        "GDPR Compliance",
+        "Data Protection"
+      ],
       "interests": "GDPR Compliance, Data Anonymization, Privacy by Design"
     },
     {
       "name": "Zachary",
       "biography": "Zachary, known for his unconventional testing methods, loves pushing systems to their limits with bizarre and creative user actions. His outside-the-box thinking often uncovers bugs in the most unexpected places.",
-      "matches": ["Boundary Testing", "Edge Cases", "Creative", "Unexpected", "Chaos Engineering", "Unconventional"],
+      "matches": [
+        "Boundary Testing",
+        "Edge Cases",
+        "Creative",
+        "Unexpected",
+        "Chaos Engineering",
+        "Unconventional"
+      ],
       "interests": "Chaos Engineering, fuzz testing, edge case exploration"
     },
     {
@@ -63,7 +104,12 @@
     {
       "name": "Emma",
       "biography": "Emma is an expert in form validation and user input handling. Her sharp eye for detail ensures that even the most subtle data entry issues are caught and resolved before they impact users.",
-      "matches": ["Form Validation", "Input Handling", "Data Entry Testing", "UX Issues"],
+      "matches": [
+        "Form Validation",
+        "Input Handling",
+        "Data Entry Testing",
+        "UX Issues"
+      ],
       "interests": "Input Validation, Accessibility Testing, UX Writing, Usability Testing"
     }
   ]

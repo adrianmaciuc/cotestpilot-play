@@ -1,63 +1,5 @@
-# from playwright.async_api import async_playwright
-# import playwright_async_cotestpilot
-# import asyncio
-# from playwright_async_cotestpilot import configure_logging, LogLevel
-
-# # Configure logging and settings
-# configure_logging(
-#     level="DEBUG",
-#     console_verbosity=LogLevel.VERBOSE,
-#     config={
-#         'api_rate_limit': 0.25,        # API calls per second
-#         'screenshot_retention_days': 7,  # Screenshot retention period
-#         'max_retries': 5                # API call retry attempts
-#     }
-# )
-
-# async def main():
-#     # Initialize Playwright and navigate to a page
-#     async with async_playwright() as p:
-#         browser = await p.chromium.launch()
-#         page = await browser.new_page()
-#         await page.goto('https://www,playwright.dev/')
-
-#         # Basic AI check with additional options
-#         result = await page.ai_check(
-#             console_verbosity=LogLevel.BASIC,  # Control logging for this check
-#             save_to_file=True,                 # Save results to JSON file
-#             output_dir="ai_check_results"      # Directory for results
-#         )
-#         print(f"Found {len(result.bugs)} issues")
-
-#         # Generate HTML report
-#         report_path = await page.ai_report(output_dir="ai_check_results")
-#         print(f"Report generated at: {report_path}")
-
-# # Run the async function
-# asyncio.run(main())
-
-"""
-How to run these tests:
-1. From command line:
-   python -m unittest test.py
-
-Requirements:
-- playwright >= 1.41.0
-- playwright-cotestpilot >= 0.1.0
-
-Note: Before running, ensure browsers are installed:
-    playwright install chromium
-"""
-
-import unittest
-import asyncio
-from unittest import skipIf
-from playwright.async_api import async_playwright, Page, Browser, BrowserContext, Playwright
-import time
-import playwright_async_cotestpilot
-import json
-import os
-import logging
+from playwright.async_api import async_playwright, Page # type: ignore
+import time, json, os, logging, playwright_async_cotestpilot, unittest
 
 # Add logging configuration
 logger = logging.getLogger(__name__)
@@ -76,6 +18,12 @@ class TestPlaywrightPage(unittest.IsolatedAsyncioTestCase):  # Changed base clas
         self.page:Page = await self.context.new_page()
 
     async def asyncTearDown(self):  # Changed to async teardown
+        # Generate and verify report
+        report_path = await self.page.ai_report(output_dir="ai_check_results_practice_auto")
+        
+        # Verify report was created
+        self.assertTrue(os.path.exists(report_path), f"Report file not found at {report_path}")
+
         """Clean up after each test"""
         await self.context.close()
         await self.browser.close()
@@ -86,18 +34,12 @@ class TestPlaywrightPage(unittest.IsolatedAsyncioTestCase):  # Changed base clas
         await self.page.wait_for_load_state('networkidle')
         
         # Run AI check
-        result = await self.page.ai_check(
+        await self.page.ai_check(
             label='practice_automation',
             save_to_file=True,
-            output_dir="ai_check_results"
+            output_dir="ai_check_results_practice_auto",
+            custom_prompt="Pay special attention to header area"
         )
-        
-        # Generate and verify report
-        report_path = await self.page.ai_report(output_dir="ai_check_results")
-        print(f"Report generated at: {report_path}")
-        
-        # Verify report was created
-        self.assertTrue(os.path.exists(report_path), f"Report file not found at {report_path}")
 
 if __name__ == '__main__':
     unittest.main()
